@@ -207,6 +207,16 @@ public class Joueur {
         return soldatNumber;
     }
 
+    public int countrySoldatNumber(Country C) {
+        int soldatNumber = 0;
+        for (Unite U : C.getUnitesOnLand()) {
+            if (U.type == 1) {
+                soldatNumber++;
+            }
+        }
+        return soldatNumber;
+    }
+
     public int playerCavalierNumber() {
         int cavalierNumber = 0;
         for (Unite U : unites) {
@@ -217,9 +227,29 @@ public class Joueur {
         return cavalierNumber;
     }
 
+    public int countryCavalierNumber(Country C) {
+        int cavalierNumber = 0;
+        for (Unite U : C.getUnitesOnLand()) {
+            if (U.type == 2) {
+                cavalierNumber++;
+            }
+        }
+        return cavalierNumber;
+    }
+
     public int playerCanonNumber() {
         int canonNumber = 0;
         for (Unite U : unites) {
+            if (U.type == 3) {
+                canonNumber++;
+            }
+        }
+        return canonNumber;
+    }
+
+    public int countryCanonNumber(Country C) {
+        int canonNumber = 0;
+        for (Unite U : C.getUnitesOnLand()) {
             if (U.type == 3) {
                 canonNumber++;
             }
@@ -253,6 +283,71 @@ public class Joueur {
             }
         }
     }
+
+
+    public void choixDeplacement() {
+        Scanner scan = new Scanner(System.in);
+        //Country choice
+        while (true) {
+            System.out.println("Depuis quel territoire (id) voulez-vous déplacer des unites ?");
+            int country_id = scan.nextInt();
+            //Possession check
+            if (!playerPossessCountry(country_id)) {
+                System.out.println("Ce pays n'est pas à vous, voulez-vous attaquer ?");
+                System.out.println("1 - Oui");
+                System.out.println("2 - Non");
+                int attack = scan.nextInt();
+                if (attack == 1) {
+                    //Attack fonction
+                }
+            } else {
+                for (Country C : ownedCountries) {
+                    if (C.country_id == country_id) {
+                        //Unite choice
+                        displayPossessUnites();
+                        System.out.println("Quels unites (id) voulez-vous déplacer ?");
+                        int unite_id = scan.nextInt();
+                        System.out.println("Combien ?");
+                        int unite_number = scan.nextInt();
+                        //Possession check
+                        if (unite_id == 1) {
+                            if (countrySoldatNumber(C) == 0)
+                                System.out.println("Vous n'avez pas ce type d'unite");
+                            else if (countrySoldatNumber(C) < unite_number)
+                                System.out.println("Vous n'avez pas assez d'unite");
+                            else {
+                                //deplacement(unite_id, unite_number, country_id);
+                                break;
+                            }
+                        } else if (unite_id == 2) {
+                            if (countryCavalierNumber(C) == 0)
+                                System.out.println("Vous n'avez pas ce type d'unite");
+                            else if (countryCavalierNumber(C) < unite_number)
+                                System.out.println("Vous n'avez pas assez d'unite");
+                            else {
+                                //depacement(unite_id, unite_number, country_id);
+                                break;
+                            }
+                        } else if (unite_id == 3) {
+                            if (countryCanonNumber(C) == 0)
+                                System.out.println("Vous n'avez pas ce type d'unite");
+                            else if (countryCanonNumber(C) < unite_number)
+                                System.out.println("Vous n'avez pas assez d'unite");
+                            else {
+                                //deplacement(unite_id, unite_number, country_id);
+                                break;
+                            }
+                        } else {
+                            System.out.println("Doesn't exist");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
 }
 
 
