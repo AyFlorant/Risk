@@ -155,12 +155,142 @@ public class Interface extends JFrame implements ActionListener {
 			try {
 
 
-				Image img = ImageIO.read(new File("Carte.png"));
+				Image img = ImageIO.read(new File("Risk'isep_country_id.png"));
 				g.drawImage(img, 0, 0,1280 ,600,this);
-				// int x1 =500;
-				// int y1=500;
-
-				//g.fillOval(x1,y1,25,25);
+					//NA
+				int x20=65;
+				int y20=80;
+				int x25=170;
+				int y25=81;
+				int x21=150;
+				int y21=120;
+				int x26=197;
+				int y26=125;
+				int x27=285;
+				int y27=123;
+				int x28=145;
+				int y28=190;
+				int x23=230;
+				int y23=195;
+				int x22=152;
+				int y22=270;	
+				int x24=360;
+				int y24=50;
+				g.fillOval(x20,y20,20,20);
+				g.fillOval(x25,y25,20,20);
+				g.fillOval(x21,y21,20,20);
+				g.fillOval(x26,y26,20,20);
+				g.fillOval(x27,y27,20,20);
+				g.fillOval(x28,y28,20,20);
+				g.fillOval(x23,y23,20,20);
+				g.fillOval(x21,y21,20,20);
+				g.fillOval(x22,y22,20,20);
+				g.fillOval(x24,y24,20,20);
+				//SA
+				int x30=320;
+				int y30=390;
+				int x29=255;
+				int y29=487;
+				int x31=225;
+				int y31=405;
+				int x32=223;
+				int y32=322;
+				g.fillOval(x30,y30,20,20);
+				g.fillOval(x29,y29,20,20);
+				g.fillOval(x31,y31,20,20);
+				g.fillOval(x32,y32,20,20);
+				//Europe
+				int x2=464;
+				int y2=105;
+				int x5=530;
+				int y5=240;
+				int x1=413;
+				int y1=173;
+				int x6=595;
+				int y6=165;
+				int x7=455;
+				int y7=235;
+				int x3=520;
+				int y3=185;
+				int x4=525;
+				int y4=100;
+				g.fillOval(x2,y2,17,17);
+				g.fillOval(x5,y5,20,20);
+				g.fillOval(x1,y1,20,20);
+				g.fillOval(x6,y6,20,20);
+				g.fillOval(x7,y7,20,20);
+				g.fillOval(x4,y4,20,20);
+				g.fillOval(x3,y3,20,20);
+				//Afrique
+				
+				int x37=468;
+				int y37=350;
+				int x35=563;
+				int y35=340;
+				int x34=620;
+				int y34=400;
+				int x33=570;
+				int y33=440;
+				int x38=580;
+				int y38=515;
+				int x36=680;
+				int y36=525;
+				g.fillOval(x37,y37,20,20);
+				g.fillOval(x35,y35,20,20);
+				g.fillOval(x34,y34,20,20);
+				g.fillOval(x33,y33,20,20);
+				g.fillOval(x38,y38,20,20);
+				g.fillOval(x36,y36,17,17);
+				//Asie
+				int x12=998;
+				int y12=200;
+				int x15=900;
+				int y15=190;
+				int x11=870;
+				int y11=135;
+				int x16=875;
+				int y16=330;
+				int x17=800;
+				int y17=100;
+				int x18=730;
+				int y18=120;
+				int x13=950;
+				int y13=60;
+				int x14=650;
+				int y14=300;	
+				int x10=780;
+				int y10=310;
+				int x8=710;
+				int y8=200;
+				int x9=840;
+				int y9=250;
+				int x19=885;
+				int y19=50;
+				g.fillOval(x12,y12,20,20);
+				g.fillOval(x15,y15,20,20);
+				g.fillOval(x11,y11,20,20);
+				g.fillOval(x16,y16,20,20);
+				g.fillOval(x17,y17,20,20);
+				g.fillOval(x18,y18,20,20);
+				g.fillOval(x13,y13,20,20);
+				g.fillOval(x14,y14,20,20);
+				g.fillOval(x10,y10,20,20);
+				g.fillOval(x8,y8,20,20);
+				g.fillOval(x9,y9,20,20);
+				g.fillOval(x19,y19,20,20);
+			    //Oceanie 
+				int x40=890;
+				int y40=430;
+				int x41=980;
+				int y41=410;
+				int x42=940;
+				int y42=520;
+				int x39=1020;
+				int y39=500;
+				g.fillOval(x40,y40,20,20);
+				g.fillOval(x41,y41,20,20);
+				g.fillOval(x42,y42,20,20);
+				g.fillOval(x39,y39,20,20);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
