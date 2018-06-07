@@ -14,7 +14,7 @@ public class Joueur {
     //protected COLOR color;
     protected int countriesWonLastTurn;
 
-    public Joueur(String player_name, int player_id,int[] unites,int[] ownedcountries) {
+    public Joueur(String player_name, int player_id, int[] unites, int[] ownedcountries) {
         this.player_name = player_name;
         this.player_id = player_id;
         this.ownedCountries = new ArrayList<Country>();
@@ -305,8 +305,7 @@ public class Joueur {
                     System.out.println("2 - Non");
                     int attack = scan.nextInt();
                     if (attack == 1) {
-                        //Attack fonction TODO
-                        System.out.println("Fonction attaque TODO");
+                        choixAttack(country_id_origin, country_id_desti);
                     }
                 } else {
                     for (Country C : ownedCountries) {
@@ -318,7 +317,9 @@ public class Joueur {
                             System.out.println("Combien ?");
                             int unite_number = scan.nextInt();
                             //Possession check
-                            if (unite_id == 1) {
+                            if (C.unitesOnLand.size() <= unite_number) {
+                                System.out.println("Impossible, il faut qu'il y ait toujours une unité sur le territoire");
+                            } else if (unite_id == 1) {
                                 if (countrySoldatNumber(C) == 0)
                                     System.out.println("Vous n'avez pas ce type d'unite");
                                 else if (countrySoldatNumber(C) < unite_number)
@@ -387,6 +388,52 @@ public class Joueur {
         }
         //MVT_tour à décrementer TODO
     }
+
+    public void choixAttack(int country_id_origin, int country_id_desti) {
+        Scanner scan = new Scanner(System.in);
+        int[] unite_id = {0, 0, 0};
+        System.out.println("- Vous pouvez choisir jusqu'à 3 unités pour l'attaque -");
+        for (Country C : ownedCountries) {
+            if (C.country_id == country_id_origin) {
+                C.afficherUnites();
+                System.out.println("Quels unités voulez-vous ?");
+                System.out.println("1 - Soldat");
+                System.out.println("2 - Cavalier");
+                System.out.println("3 - Canon");
+                System.out.println("0 - Stop");
+                int i = 0;
+                for (i = 0; i < 3; i++) {
+                    System.out.println("-> ");
+                    int id = scan.nextInt();
+                    if (id == 0) break;
+                    else unite_id[i] = id;
+                }
+                System.out.println("i+1 after boucle choix " + i);
+                //Possession check
+                int error = 0;
+                for (int j = 0; j < 3; j++) {
+                    if (unite_id[j] == 1 && countrySoldatNumber(C) == 0) {
+                        error = 1;
+                    } else if (unite_id[j] == 2 && countryCavalierNumber(C) == 0) {
+                        error = 1;
+                    } else if (unite_id[j] == 3 && countryCanonNumber(C) == 0) {
+                        error = 1;
+                    } else if (C.unitesOnLand.size() <= i) {
+                        error = 2;
+                    }
+                }
+                if (error == 1) {
+                    System.out.println("Vous n'avez pas les unités requises");
+                } else if (error == 2) {
+                    System.out.println("Impossible, il faut qu'il y ait toujours une unité sur le territoire");
+                } else if ((error == 0)) {
+                    System.out.println("Parfait ! Vous pouvez désormais attaquer !");
+                    //TODO Attack
+                }
+            }
+        }
+    }
+
 
 }
 
