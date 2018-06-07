@@ -9,7 +9,7 @@ import static java.lang.Math.floor;
 public class Game {
 
     public boolean victory;
-    public int nbr_joueur;
+    public static int nbr_joueur;
     protected ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
     protected ArrayList<Country> countriesLeft = new ArrayList<Country>();
     ;
@@ -37,7 +37,7 @@ public class Game {
         while (i <= nbr_joueur) {
             System.out.println("Nom du joueur ?");
             String name = scan.nextLine();
-            ajouterJoueur(new Joueur(name, i));
+            ajouterJoueur(new Joueur(name, i,null,null));
             i += 1;
         }
         create_world();
