@@ -48,7 +48,7 @@ public class Country {
             else if (U.type == 2) {
                 nbr_cavalier++;
             }
-            else (U.type == 3) {
+            else if (U.type == 3){
                 nbr_canon++;
             }
         }
