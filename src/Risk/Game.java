@@ -46,7 +46,7 @@ public class Game {
         for (Joueur J : joueurs) {
             //Auto placement of 1 soldat on every countries
             for (Country C : J.ownedCountries) {
-                J.Placement(1, 1, C.country_id);
+                J.placement(1, 1, C.country_id);
             }
             //Players place their armies
             while (J.unites.size() != 0) {
@@ -109,7 +109,7 @@ public class Game {
     public void gameTurn(Joueur J) {
         //Receive new unites
         System.out.println("J.player_id" + J.player_id);
-        double receivedUnites = floor(J.ownedCountries.size()/3) + J.Renfort_region();
+        double receivedUnites = floor(J.ownedCountries.size() / 3) + J.Renfort_region();
         System.out.println("receivedUnites" + receivedUnites);
         for (int i = 0; i < J.countriesWonLastTurn; i++) {
             int randomNumber = ThreadLocalRandom.current().nextInt(1, 2);
@@ -124,7 +124,12 @@ public class Game {
         while (J.unites.size() != 0) {
             J.placeUnites();
         }
-        //Attacking
+        //Deplacement/Attaque
+        J.choixDeplacement();
 
+    }
+
+    public boolean victory() {
+        return true; //TODO
     }
 }

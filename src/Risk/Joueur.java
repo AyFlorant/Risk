@@ -98,9 +98,10 @@ public class Joueur {
             int country_id = scan.nextInt();
             //Possession check
             if (!playerPossessCountry(country_id)) {
-                System.out.println("You don't possess this country... Choose another one !");
+                System.out.println("Ce territoire n'est pas à vous !");
             } else {
                 //Unite choice
+                System.out.println("Vous avez en réserve...");
                 displayPossessUnites();
                 System.out.println("Quels unites (id) voulez-vous placer ?");
                 int unite_id = scan.nextInt();
@@ -113,7 +114,7 @@ public class Joueur {
                     else if (playerSoldatNumber() < unite_number)
                         System.out.println("Vous n'avez pas assez d'unite");
                     else {
-                        Placement(unite_id, unite_number, country_id);
+                        placement(unite_id, unite_number, country_id);
                         break;
                     }
                 } else if (unite_id == 2) {
@@ -122,7 +123,7 @@ public class Joueur {
                     else if (playerCavalierNumber() < unite_number)
                         System.out.println("Vous n'avez pas assez d'unite");
                     else {
-                        Placement(unite_id, unite_number, country_id);
+                        placement(unite_id, unite_number, country_id);
                         break;
                     }
                 } else if (unite_id == 3) {
@@ -131,7 +132,7 @@ public class Joueur {
                     else if (playerCanonNumber() < unite_number)
                         System.out.println("Vous n'avez pas assez d'unite");
                     else {
-                        Placement(unite_id, unite_number, country_id);
+                        placement(unite_id, unite_number, country_id);
                         break;
                     }
                 } else {
@@ -266,7 +267,7 @@ public class Joueur {
         System.out.println("Nbr_canon (id3) = " + nbr_canon);
     }
 
-    public void Placement(int unite_id, int unite_number, int country_id) {
+    public void placement(int unite_id, int unite_number, int country_id) {
         int i = 0;
         ArrayList<Unite> bufferUnites = new ArrayList<Unite>();
         for (Country C : ownedCountries) {
@@ -280,65 +281,73 @@ public class Joueur {
                     }
                 }
                 unites.removeAll(bufferUnites);
+                C.afficherUnites();
             }
         }
     }
-
 
     public void choixDeplacement() {
         Scanner scan = new Scanner(System.in);
         //Country choice
         while (true) {
             System.out.println("Depuis quel territoire (id) voulez-vous déplacer des unites ?");
-            int country_id = scan.nextInt();
+            int country_id_origin = scan.nextInt();
             //Possession check
-            if (!playerPossessCountry(country_id)) {
-                System.out.println("Ce pays n'est pas à vous, voulez-vous attaquer ?");
-                System.out.println("1 - Oui");
-                System.out.println("2 - Non");
-                int attack = scan.nextInt();
-                if (attack == 1) {
-                    //Attack fonction
-                }
+            if (!playerPossessCountry(country_id_origin)) {
+                System.out.println("Ce territoire n'est pas à vous !");
             } else {
-                for (Country C : ownedCountries) {
-                    if (C.country_id == country_id) {
-                        //Unite choice
-                        displayPossessUnites();
-                        System.out.println("Quels unites (id) voulez-vous déplacer ?");
-                        int unite_id = scan.nextInt();
-                        System.out.println("Combien ?");
-                        int unite_number = scan.nextInt();
-                        //Possession check
-                        if (unite_id == 1) {
-                            if (countrySoldatNumber(C) == 0)
-                                System.out.println("Vous n'avez pas ce type d'unite");
-                            else if (countrySoldatNumber(C) < unite_number)
-                                System.out.println("Vous n'avez pas assez d'unite");
-                            else {
-                                //deplacement(unite_id, unite_number, country_id);
-                                break;
+                System.out.println("Sur quel territoire (id) voulez-vous déplacer des unites ?");
+                int country_id_desti = scan.nextInt();
+                //Possession check
+                if (!playerPossessCountry(country_id_desti)) {
+                    System.out.println("Ce pays n'est pas à vous, voulez-vous attaquer ?");
+                    System.out.println("1 - Oui");
+                    System.out.println("2 - Non");
+                    int attack = scan.nextInt();
+                    if (attack == 1) {
+                        //Attack fonction TODO
+                        System.out.println("Fonction attaque TODO");
+                    }
+                } else {
+                    for (Country C : ownedCountries) {
+                        if (C.country_id == country_id_origin) {
+                            //Unite choice
+                            C.afficherUnites();
+                            System.out.println("Quels unites (id) voulez-vous déplacer ?");
+                            int unite_id = scan.nextInt();
+                            System.out.println("Combien ?");
+                            int unite_number = scan.nextInt();
+                            //Possession check
+                            if (unite_id == 1) {
+                                if (countrySoldatNumber(C) == 0)
+                                    System.out.println("Vous n'avez pas ce type d'unite");
+                                else if (countrySoldatNumber(C) < unite_number)
+                                    System.out.println("Vous n'avez pas assez d'unite");
+                                else {
+                                    deplacement(unite_id, unite_number, country_id_origin, country_id_desti);
+                                    break;
+                                }
+                            } else if (unite_id == 2) {
+                                if (countryCavalierNumber(C) == 0)
+                                    System.out.println("Vous n'avez pas ce type d'unite");
+                                else if (countryCavalierNumber(C) < unite_number)
+                                    System.out.println("Vous n'avez pas assez d'unite");
+                                else {
+                                    deplacement(unite_id, unite_number, country_id_origin, country_id_desti);
+                                    break;
+                                }
+                            } else if (unite_id == 3) {
+                                if (countryCanonNumber(C) == 0)
+                                    System.out.println("Vous n'avez pas ce type d'unite");
+                                else if (countryCanonNumber(C) < unite_number)
+                                    System.out.println("Vous n'avez pas assez d'unite");
+                                else {
+                                    deplacement(unite_id, unite_number, country_id_origin, country_id_desti);
+                                    break;
+                                }
+                            } else {
+                                System.out.println("Doesn't exist");
                             }
-                        } else if (unite_id == 2) {
-                            if (countryCavalierNumber(C) == 0)
-                                System.out.println("Vous n'avez pas ce type d'unite");
-                            else if (countryCavalierNumber(C) < unite_number)
-                                System.out.println("Vous n'avez pas assez d'unite");
-                            else {
-                                //depacement(unite_id, unite_number, country_id);
-                                break;
-                            }
-                        } else if (unite_id == 3) {
-                            if (countryCanonNumber(C) == 0)
-                                System.out.println("Vous n'avez pas ce type d'unite");
-                            else if (countryCanonNumber(C) < unite_number)
-                                System.out.println("Vous n'avez pas assez d'unite");
-                            else {
-                                //deplacement(unite_id, unite_number, country_id);
-                                break;
-                            }
-                        } else {
-                            System.out.println("Doesn't exist");
                         }
                     }
                 }
@@ -346,7 +355,38 @@ public class Joueur {
         }
     }
 
+    public void deplacement(int unite_id, int unite_number, int country_id_origin, int country_id_desti) {
+        int i = 0;
+        ArrayList<Unite> bufferUnites = new ArrayList<Unite>();
+        for (Country C : ownedCountries) {
+            if (C.country_id == country_id_origin) {
+                for (Unite U : C.unitesOnLand) {
+                    if (U.type == unite_id && i < unite_number) {
+                        //We put the unit into a temporary list
+                        bufferUnites.add(U);
+                        i++;
+                    }
+                }
+                C.unitesOnLand.removeAll(bufferUnites);
+                C.afficherUnites();
+            }
 
+        }
+        ArrayList<Unite> bufferUnites2 = new ArrayList<Unite>();
+        for (Country C : ownedCountries) {
+            if (C.country_id == country_id_desti) {
+                for (Unite U : bufferUnites) {
+                    C.unitesOnLand.add(U);
+                    bufferUnites2.add(U);
+
+                    i++;
+                }
+                bufferUnites.removeAll(bufferUnites2);
+                C.afficherUnites();
+            }
+        }
+        //MVT_tour à décrementer TODO
+    }
 
 }
 
