@@ -14,7 +14,7 @@ public class Joueur {
     //protected COLOR color;
     protected int countriesWonLastTurn;
 
-    public Joueur(String player_name, int player_id) {
+    public Joueur(String player_name, int player_id,int[] unites,int[] ownedcountries) {
         this.player_name = player_name;
         this.player_id = player_id;
         this.ownedCountries = new ArrayList<Country>();
