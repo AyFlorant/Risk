@@ -5,7 +5,6 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -15,6 +14,8 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -26,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 
@@ -33,7 +36,7 @@ public class Interface extends JFrame implements ActionListener {
 	private Panneau pan = new Panneau();
 	private Panneau1 pan1 =new Panneau1();
 	private Bouton bouton = new Bouton("JOUER");
-	private Bouton bouton2 = new Bouton("Fin du tour");
+	private Bouton buton = new Bouton("Fin du tour");
 	private JPanel container = new JPanel();
 	private JPanel jeu = new JPanel();
 	private JLabel label = new JLabel("Risk'Isep : Sublime Wafare IIII");
@@ -41,7 +44,7 @@ public class Interface extends JFrame implements ActionListener {
 	public JComboBox combo = new JComboBox();
 	private JLabel label1 = new JLabel("Nombres de joueurs ? ");
 	private JCheckBox check1 =new JCheckBox("Avec IA ? ");
-
+	final JTextArea textArea = new JTextArea();
 	 
 	
 	
@@ -74,8 +77,7 @@ public class Interface extends JFrame implements ActionListener {
 		container.add(pan1, BorderLayout.CENTER);
 		
 		bouton.addActionListener(this);
-		bouton2.addActionListener(this);
-        
+		
 		JPanel south  = new JPanel();
 		south.add(bouton);
 		check1.addActionListener(new StateListener());
@@ -117,14 +119,40 @@ public class Interface extends JFrame implements ActionListener {
 	}
 	
 	private JPanel buildContentPane1() {
+		 class TextAreaOutputStreamTest extends JPanel {
+
+			   public JTextArea textArea = new JTextArea(15, 30);
+			   public TextAreaOutputStream taOutputStream = new TextAreaOutputStream(
+			         textArea, "Console");
+
+			   public TextAreaOutputStreamTest() {
+			      setLayout(new BorderLayout());
+			      add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+			            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+			      System.setOut(new PrintStream(taOutputStream));
+			     
+			   }
+	}
+			  
+		 buton.addActionListener(new ActionListener() {
+
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		        	
+		          //  for(String a: textArea.getText().split("\\n"))
+		            //	textArea.append(a);
+						
+
+		        }
+		    });
+		 
 		
-		
- 
 		jeu.setLayout(new BorderLayout());
 		jeu.add(pan);
-		jeu.add(bouton2,BorderLayout.SOUTH);
+		jeu.add(buton,BorderLayout.WEST);
 		JTable tableau = new JTable(new ModeleStatique());
 		jeu.add(new JScrollPane(tableau),BorderLayout.EAST);
+		jeu.add(new TextAreaOutputStreamTest(),BorderLayout.SOUTH);
 		
 		
 	
@@ -636,7 +664,7 @@ public class Interface extends JFrame implements ActionListener {
 			g2d.setPaint(gp);
 			g2d.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
 			g2d.setColor(Color.black);
-			g2d.drawString(this.name, this.getWidth() / 2 - (this.getWidth() / 2 /4) , (this.getHeight() / 2) + 5);
+			g2d.drawString(this.name, 20 , (this.getHeight() / 2) + 5);
 		}
 		//Méthode appelée lors du clic de souris
 		public void mouseClicked(MouseEvent event) {
@@ -733,6 +761,47 @@ public class Interface extends JFrame implements ActionListener {
 		RIEN;
 	}
 	
-	
+	class TextAreaOutputStream extends OutputStream {
+
+		   public final JTextArea textArea;
+		   public final StringBuilder sb = new StringBuilder();
+		   public String title;
+
+		   public TextAreaOutputStream(final JTextArea textArea, String title) {
+		      this.textArea = textArea;
+		      this.title = title;
+		      sb.append(title + "> ");
+		   }
+
+		   @Override
+		   public void flush() {
+		   }
+
+		   @Override
+		   public void close() {
+		   }
+
+		   @Override
+		   public void write(int b) throws IOException {
+
+		      if (b == '\r')
+		         return;
+
+		      if (b == '\n') {
+		         final String text = sb.toString() + "\n";
+		         SwingUtilities.invokeLater(new Runnable() {
+		            public void run() {
+		               textArea.append(text);
+		            }
+		         });
+		         sb.setLength(0);
+		         sb.append(title + "> ");
+		         return;
+		      }
+
+		      sb.append((char) b);
+		   }
+		   
+		}
 	
 	}
