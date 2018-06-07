@@ -36,4 +36,25 @@ public class Country {
     public void setBorderedCountries(ArrayList<Country> borderedCountries) {
         this.borderedCountries = borderedCountries;
     }
+
+    public void afficherUnites() {
+        int nbr_soldat = 0;
+        int nbr_cavalier = 0;
+        int nbr_canon = 0;
+        for (Unite U : unitesOnLand) {
+            if (U.type == 1) {
+                nbr_soldat++;
+            }
+            else if (U.type == 2) {
+                nbr_cavalier++;
+            }
+            else (U.type == 3) {
+                nbr_canon++;
+            }
+        }
+        System.out.println("Sur le territoire id = "+country_id+" il y a : ");
+        System.out.println("Nbr_soldat (id1) = " + nbr_soldat);
+        System.out.println("Nbr_cavalier (id2) = " + nbr_cavalier);
+        System.out.println("Nbr_canon (id3) = " + nbr_canon);
+    }
 }
