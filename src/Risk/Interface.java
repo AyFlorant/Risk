@@ -5,14 +5,17 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -21,26 +24,36 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 
 public class Interface extends JFrame implements ActionListener {
 	private Panneau pan = new Panneau();
 	private Panneau1 pan1 =new Panneau1();
 	private Bouton bouton = new Bouton("JOUER");
-	private Bouton bouton2 = new Bouton("-");
+	private Bouton bouton2 = new Bouton("Fin du tour");
 	private JPanel container = new JPanel();
 	private JPanel jeu = new JPanel();
 	private JLabel label = new JLabel("Risk'Isep : Sublime Wafare IIII");
 	//private int compteur=0;
-	private JComboBox combo = new JComboBox();
+	public JComboBox combo = new JComboBox();
 	private JLabel label1 = new JLabel("Nombres de joueurs ? ");
 	private JCheckBox check1 =new JCheckBox("Avec IA ? ");
+
+	 
 	
 	
 	public Interface(){
 		super();
+		
+		 
+	       
 		build();
+		 
 	}
+	
 	private void build(){
 		
 		setTitle("Risk'Isep : Sublime Warfare III");
@@ -67,7 +80,7 @@ public class Interface extends JFrame implements ActionListener {
 		south.add(bouton);
 		check1.addActionListener(new StateListener());
 
-		// south.add(bouton2);
+		
 		container.add(south, BorderLayout.SOUTH);
 		String[]tab= {"2 joueurs","3 joueurs","4 joueurs","5 joueurs","6 joueurs"};
 		combo = new JComboBox(tab);
@@ -79,6 +92,8 @@ public class Interface extends JFrame implements ActionListener {
 		south.add(combo);
 		south.add(check1);
 		container.add(south, BorderLayout.SOUTH);
+
+	
 /*
 		//Définition d'une police d'écriture
 		Font police = new Font("Tahoma", Font.BOLD, 16);
@@ -102,19 +117,29 @@ public class Interface extends JFrame implements ActionListener {
 	}
 	
 	private JPanel buildContentPane1() {
+		
+		
+ 
 		jeu.setLayout(new BorderLayout());
-		jeu.add(pan, BorderLayout.CENTER);
+		jeu.add(pan);
+		jeu.add(bouton2,BorderLayout.SOUTH);
+		JTable tableau = new JTable(new ModeleStatique());
+		jeu.add(new JScrollPane(tableau),BorderLayout.EAST);
+		
+		
+	
 	return jeu;	
 	}
 	class StateListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("source :"+((JCheckBox)e.getSource()).getText()+"etat:"+((JCheckBox)e.getSource()).isSelected());
-
+				
 		}
 	}
 	class ItemAction implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
+			
 			System.out.println("ActionListener : action sur " + combo.getSelectedItem());
 		}               
 	}
@@ -135,21 +160,25 @@ public class Interface extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setContentPane(buildContentPane1());
 		
-	/*  if(arg0.getSource()==bouton)
-		  this.compteur++;
-		  label.setText("vous avez cliqué "+this.compteur+" !");
-	 if(arg0.getSource()==bouton2)
-		 this.compteur--;
-	 label.setText("vous avez cliqué "+this.compteur+" !");
-		*/ 
+
 	} 
+	
 
 
 
 
+	
+	
 
+		
+	
 
-	class Panneau extends JPanel{
+	class Panneau extends JPanel implements MouseListener{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public Panneau() {
 			 this.addMouseListener(this);    
 		}
@@ -607,7 +636,7 @@ public class Interface extends JFrame implements ActionListener {
 			g2d.setPaint(gp);
 			g2d.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
 			g2d.setColor(Color.black);
-			g2d.drawString(this.name, this.getWidth() / 2 - (this.getWidth() / 2 /4), (this.getHeight() / 2) + 5);
+			g2d.drawString(this.name, this.getWidth() / 2 - (this.getWidth() / 2 /4) , (this.getHeight() / 2) + 5);
 		}
 		//Méthode appelée lors du clic de souris
 		public void mouseClicked(MouseEvent event) {
@@ -626,24 +655,7 @@ public class Interface extends JFrame implements ActionListener {
 		public void mousePressed(MouseEvent event) { }
 
 		//Méthode appelée lorsque l'on relâche le clic de souris
-		/*  public void mouseReleased(MouseEvent event) { 
-			  if((event.getY() > 0 && event.getY() < this.getHeight()) && (event.getX() > 0 && event.getX() < this.getWidth())){
-			  try {
-			      img = ImageIO.read(new File("105974.png"));
-			    } catch (IOException e) {
-			      e.printStackTrace();
-			    }
-			  }
-			  else{
-				    try {
-				      img = ImageIO.read(new File("Carte.png"));
-				    } catch (IOException e) {
-				      e.printStackTrace();
-				    }
-			  }
-
-		  }   
-		*/  
+		
 
 		public String getName() {
 			return name;
@@ -668,5 +680,59 @@ public class Interface extends JFrame implements ActionListener {
 		}
 
 	}
-
-}
+	public class ModeleStatique extends AbstractTableModel {
+	    private final ArrayList<Joueur> joueur = new ArrayList<Joueur>();
+	 
+	    private final String[] entetes = {"Name", "ID", "Unites", "Country"};
+	 
+	    public ModeleStatique() {
+	        super();
+	 
+	        
+	                joueur.add(new Joueur("Joueur1",1,null,null));
+	                joueur.add(new Joueur("Joueur2",2,null,null));
+	       
+	    }
+	 
+	    public int getRowCount() {
+	        return joueur.size();
+	    } 
+	 
+	    public int getColumnCount() {
+	        return entetes.length;
+	    }
+	 
+	    public String getColumnName(int columnIndex) {
+	        return entetes[columnIndex];
+	    }
+	 
+	    public Object getValueAt(int rowIndex, int columnIndex) {
+	    	switch(columnIndex){
+	    	case 0:
+	            return joueur.get(rowIndex).getPlayer_name();
+            case 1:
+                return joueur.get(rowIndex).getPlayer_id();
+         
+            case 2:
+                return joueur.get(rowIndex).getOwnedCountries();
+            case 3:
+                return joueur.get(rowIndex).getUnites();
+                
+            default:
+	        return null; //Ne devrait jamais arriver
+	       
+	        
+	    }
+	  }
+	 
+	}
+	public enum Unite{
+		Soldat,
+		Canon,
+		Cavalier,
+		RIEN;
+	}
+	
+	
+	
+	}
