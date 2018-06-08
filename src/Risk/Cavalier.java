@@ -10,5 +10,4 @@ public class Cavalier extends Unite {
         this.DEF_prio = 3;
         this.MVT_tour = 3;
     }
-
 }

@@ -22,7 +22,5 @@ public class Main {
                 G.victory(); //Vérifie si un joueur a gagné
             }
         }
-
-
     }
 }

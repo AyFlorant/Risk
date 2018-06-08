@@ -2,7 +2,6 @@ package Risk;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Attack {
@@ -117,6 +116,4 @@ public class Attack {
                 return " ";
             }
         }
-
-
     }

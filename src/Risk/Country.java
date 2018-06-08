@@ -59,5 +59,4 @@ public class Country {
         System.out.println(nbr_cavalier+ " Cavalier(s)");
         System.out.println(nbr_canon+ " Canon(s)");
     }
-
 }

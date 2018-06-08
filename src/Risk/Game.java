@@ -3,7 +3,6 @@ package Risk;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-
 import static java.lang.Math.floor;
 
 public class Game {
@@ -219,5 +218,4 @@ public class Game {
             }
         }
     }
-
 }

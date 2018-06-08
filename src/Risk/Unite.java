@@ -1,7 +1,5 @@
 package Risk;
 
-import java.util.Comparator;
-
 public class Unite {
 
     protected int type;

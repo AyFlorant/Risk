@@ -10,6 +10,4 @@ public class Canon extends Unite {
         this.DEF_prio = 2;
         this.MVT_tour = 1;
     }
-
-
 }

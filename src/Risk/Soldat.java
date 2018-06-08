@@ -10,5 +10,4 @@ public class Soldat extends Unite {
         this.DEF_prio = 1;
         this.MVT_tour = 2;
     }
-
 }
