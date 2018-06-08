@@ -78,7 +78,6 @@ public class Game {
     }
 
     public void distributeCountries() {
-        int w = 0; //Check country_id
         while (true) {
             for (Joueur J : joueurs)
                 if (!(countriesLeft.isEmpty())) {
@@ -87,13 +86,7 @@ public class Game {
                     playersCountries.add(countriesLeft.get(randomNumber));
                     J.setOwnedCountries(playersCountries);
                     countriesLeft.remove(countriesLeft.get(randomNumber));
-
-                    //System.out.println("J.player_id" + J.player_id);
-                    //System.out.println("J.ownedCountries.size()" + J.ownedCountries.size());
-                    //System.out.println("countriesLeft.size()" + countriesLeft.size());
-                    //System.out.println("Country_id" + J.ownedCountries.get(w).getCountry_id());
                 }
-            w++; //check country_id
             if (countriesLeft.isEmpty()) {
                 break;
             }
@@ -109,7 +102,7 @@ public class Game {
     }
 
     public void gameTurn(Joueur J) {
-        //Receive new unites
+        //Reçoit des nouvelles unités
         System.out.println("C'est au tour de " + J.player_name + " de jouer : ");
         System.out.println(" ");
         double receivedUnites = floor(J.ownedCountries.size() / 3) + J.Renfort_region();
@@ -122,7 +115,7 @@ public class Game {
         //System.out.println("receivedUnites" + receivedUnites);
         if (receivedUnites < 2) receivedUnites = 2;
         J.ajouterUnite_choice(receivedUnites);
-        //Placing them
+        //Place les unités
         while (J.unites.size() != 0) {
             J.placeUnites();
         }
@@ -146,18 +139,18 @@ public class Game {
     public void choixAttack(Joueur J) {
         Scanner scan = new Scanner(System.in);
 
-        //Country choice
+        //Choix de payx
         int action = 0;
         while (action == 0) {
             System.out.println("Depuis quel territoire (id) voulez-vous attaquer ?");
             int country_id_origin = scan.nextInt();
-            //Possession check
+            //Vérification
             if (!J.playerPossessCountry(country_id_origin)) {
                 System.out.println("Ce territoire n'est pas à vous !");
             } else {
                 System.out.println("Quel territoire voulez-vous attaquer ?");
                 int country_id_desti = scan.nextInt();
-                //Possession check
+                //Vérification
                 if (J.playerPossessCountry(country_id_desti)) {
                     System.out.println("Vous ne pouvez pas attaquer votre propre territoire !");
                 } else {
@@ -198,10 +191,10 @@ public class Game {
                             } else if ((error == 0)) {
                                 System.out.println("Parfait ! Passons à l'attaque");
                                 for (Joueur J2 : joueurs) {
-                                    for (Country C2 : J2.ownedCountries){
-                                        if (C2.country_id == country_id_desti){
+                                    for (Country C2 : J2.ownedCountries) {
+                                        if (C2.country_id == country_id_desti) {
                                             Attack A = new Attack();
-                                            A.attack(unite_id,country_id_origin, country_id_desti,J,J2);
+                                            A.attack(unite_id, country_id_origin, country_id_desti, J, J2);
                                         }
                                     }
                                 }
@@ -215,9 +208,16 @@ public class Game {
     }
 
 
-    public boolean victory() {
-        return true; //TODO
+    public void victory() {
+        for (Joueur J : joueurs) {
+            if (J.ownedCountries.size() == 42) { //Vérifie si un joueur possède tous les pays
+                setVictory(true);
+                System.out.println(" ");
+                System.out.println("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --");
+                System.out.println("Victoire de " + J.player_name + " par capture de tous les territoires");
+                System.out.println("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --");
+            }
+        }
     }
-
 
 }

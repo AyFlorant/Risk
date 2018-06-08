@@ -32,14 +32,14 @@ public class Joueur {
     public void ajouterUnite_choice(double nbr_unite) {
         Scanner scan = new Scanner(System.in);
         while (nbr_unite != 0) {
-            //Choice
+            //Choix
             System.out.println(" ");
             System.out.println("Vous avez " + nbr_unite + " crédit(s) restant(s)");
             System.out.println("Quel type d'unité (id) voulez-vous ?");
             int unite_id = scan.nextInt();
             System.out.println("Combien ?");
             int unite_number = scan.nextInt();
-            //Check
+            ////Vérification
             if (unite_id == 1) {
                 if (nbr_unite < 1 * unite_number) {
                     System.out.println("Pas assez de crédits");
@@ -93,17 +93,17 @@ public class Joueur {
 
     public void placeUnites() {
         Scanner scan = new Scanner(System.in);
-        //Country choice
+        //Choix pays
         while (true) {
             System.out.println(" ");
             System.out.println("Sur quel territoire (id) voulez-vous placer des unites ?");
             int country_id = scan.nextInt();
-            //Possession check
+            ////Vérification
             if (!playerPossessCountry(country_id)) {
                 System.out.println("Ce territoire n'est pas à vous !");
                 System.out.println(" ");
             } else {
-                //Unite choice
+                //Choix unités
                 System.out.println(" ");
                 System.out.println("Vous avez en réserve...");
                 displayPossessUnites();
@@ -112,7 +112,7 @@ public class Joueur {
                 int unite_id = scan.nextInt();
                 System.out.println("Combien ?");
                 int unite_number = scan.nextInt();
-                //Possession check
+                ////Vérification
                 if (unite_id == 1) {
                     if (playerSoldatNumber() == 0)
                         System.out.println("Vous n'avez pas ce type d'unite");
@@ -267,9 +267,9 @@ public class Joueur {
         int nbr_soldat = playerSoldatNumber();
         int nbr_cavalier = playerCavalierNumber();
         int nbr_canon = playerCanonNumber();
-        System.out.println("Nbr_soldat (id1) = " + nbr_soldat);
-        System.out.println("Nbr_cavalier (id2) = " + nbr_cavalier);
-        System.out.println("Nbr_canon (id3) = " + nbr_canon);
+        System.out.println(nbr_soldat+ " Soldat(s)");
+        System.out.println(nbr_cavalier+ " Cavalier(s)");
+        System.out.println(nbr_canon+ " Canon(s)");
     }
 
     public void placement(int unite_id, int unite_number, int country_id) {
@@ -279,7 +279,7 @@ public class Joueur {
             if (C.country_id == country_id) {
                 for (Unite U : unites) {
                     if (U.type == unite_id && i < unite_number) {
-                        //We put the unit into a temporary list
+                        //Liste temporaire
                         bufferUnites.add(U);
                         C.unitesOnLand.add(U);
                         i++;
@@ -293,31 +293,31 @@ public class Joueur {
 
     public void choixDeplacement() {
         Scanner scan = new Scanner(System.in);
-        //Country choice
+        //Choix pays
         int action = 0;
         while (action == 0) {
             System.out.println("Depuis quel territoire (id) voulez-vous déplacer des unites ?");
             int country_id_origin = scan.nextInt();
-            //Possession check
+            //Vérification
             if (!playerPossessCountry(country_id_origin)) {
                 System.out.println("Ce territoire n'est pas à vous !");
             } else {
                 System.out.println("Sur quel territoire (id) voulez-vous déplacer des unites ?");
                 int country_id_desti = scan.nextInt();
-                //Possession check
+                //Vérification
                 if (!playerPossessCountry(country_id_desti)) {
                     System.out.println("Ce pays n'est pas à vous !");
                 } else {
                     for (Country C : ownedCountries) {
                         if (C.country_id == country_id_origin) {
-                            //Unite choice
+                            //Choix unités
                             C.afficherUnites();
                             System.out.println(" ");
                             System.out.println("Quels unites (id) voulez-vous déplacer ?");
                             int unite_id = scan.nextInt();
                             System.out.println("Combien ?");
                             int unite_number = scan.nextInt();
-                            //Possession check
+                            //Vérification
                             if (C.unitesOnLand.size() <= unite_number) {
                                 System.out.println("Impossible, il faut qu'il y ait toujours une unité sur le territoire");
                             } else if (unite_id == 1) {
@@ -364,7 +364,7 @@ public class Joueur {
             if (C.country_id == country_id_origin) {
                 for (Unite U : C.unitesOnLand) {
                     if (U.type == unite_id && i < unite_number) {
-                        //We put the unit into a temporary list
+                        //Liste temporaire
                         bufferUnites.add(U);
                         i++;
                     }
