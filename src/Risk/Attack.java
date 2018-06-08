@@ -13,14 +13,10 @@ public class Attack {
             for (Country C : J2.ownedCountries) {
                 if (C.country_id == country_id_desti) {
                     int i = 0;
-                    System.out.println("Check0");
                     for (Unite U : C.unitesOnLand) {
-                        System.out.println("Check1");
                         if (U.type == 1) {
-                            System.out.println("Check2");
                             if (i < 2) {
                                 unite_id_defense[i] = 1;
-                                System.out.println("Check1");
                                 i++;
                             }
                         }
@@ -30,7 +26,6 @@ public class Attack {
                             if (U.type == 2) {
                                 if (i < 2) {
                                     unite_id_defense[i] = 2;
-                                    System.out.println("Check2");
                                     i++;
                                 }
                             }
@@ -41,7 +36,6 @@ public class Attack {
                             if (U.type == 3) {
                                 if (i < 2) {
                                     unite_id_defense[i] = 3;
-                                    System.out.println("Check3");
                                     i++;
                                 }
                             }
@@ -49,13 +43,25 @@ public class Attack {
                     }
                 }
             }
-            System.out.println("Le joueur " + J2.player_name + " défend avec les armées suivantes : ");
-            System.out.println("id1 = " + unite_id_defense[0]);
-            System.out.println("id2 = " + unite_id_defense[1]);
+            System.out.println(" ");
+            System.out.println("Le joueur " + J2.player_name + " défend avec les unités suivantes : ");
+            System.out.println("1 - " + uniteName(unite_id_defense[0]));
+            System.out.println("2 - " + uniteName(unite_id_defense[1]));
+            System.out.println(" ");
             //Calcul des scores
             ArrayList<Integer> unite_power_attack = getScores(unite_id_attack);
             ArrayList<Integer> unite_power_defense = getScores(unite_id_defense);
+            System.out.println("---Puissance de l'Attaque ---");
+            for (Integer I : unite_power_attack) {
+                System.out.println("Power : " + I);
+            }
+            System.out.println(" ");
+            System.out.println("---Puissance de la défense ---");
+            for (Integer I : unite_power_defense) {
+                System.out.println("Power : " + I);
+            }
             //Conséquences de la victoire
+
 
         }
 
@@ -74,11 +80,23 @@ public class Attack {
                 }
             }
             Collections.sort(unite_power, Collections.reverseOrder());
-            System.out.println("---Test tri unite power---");
-            for (Integer I : unite_power) {
-                System.out.println("Power : " + I);
-            }
             return unite_power;
+        }
+
+
+        public String uniteName(int unite_id) {
+            if (unite_id == 1) {
+                return "Soldat";
+            }
+            else if (unite_id == 2) {
+                return "Cavalier";
+            }
+            else if (unite_id == 3) {
+                return "Canon";
+            }
+            else {
+                return " ";
+            }
         }
 
 

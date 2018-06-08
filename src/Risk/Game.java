@@ -48,12 +48,15 @@ public class Game {
             for (Country C : J.ownedCountries) {
                 J.placement(1, 1, C.country_id);
             }
+            System.out.println(" ");
+            System.out.println("C'est au tour de " + J.player_name + " de jouer : ");
             //Players place their armies
             while (J.unites.size() != 0) {
                 J.placeUnites();
             }
+            System.out.println(" ");
             System.out.println("-> Vous avez placé toutes vos armées !");
-            System.out.println("");
+            System.out.println(" ");
             System.out.println("--- Joueur suivant ---");
         }
     }
@@ -107,7 +110,8 @@ public class Game {
 
     public void gameTurn(Joueur J) {
         //Receive new unites
-        System.out.println("J.player_id" + J.player_id);
+        System.out.println("C'est au tour de " + J.player_name + " de jouer : ");
+        System.out.println(" ");
         double receivedUnites = floor(J.ownedCountries.size() / 3) + J.Renfort_region();
         for (int i = 0; i < J.countriesWonLastTurn; i++) {
             int randomNumber = ThreadLocalRandom.current().nextInt(1, 2);
@@ -125,6 +129,7 @@ public class Game {
         int action = 1;
         Scanner scan = new Scanner(System.in);
         while (action == 1) {
+            System.out.println(" ");
             System.out.println("Que souhaitez-vous faire ?");
             System.out.println("1 - Déplacement");
             System.out.println("2 - Attaque");

@@ -52,10 +52,12 @@ public class Country {
                 nbr_canon++;
             }
         }
+        System.out.println(" ");
         System.out.println("Sur le territoire id = "+country_id+" il y a : ");
-        System.out.println("Nbr_soldat (id1) = " + nbr_soldat);
-        System.out.println("Nbr_cavalier (id2) = " + nbr_cavalier);
-        System.out.println("Nbr_canon (id3) = " + nbr_canon);
+        System.out.println(" ");
+        System.out.println(nbr_soldat+ " Soldat(s)");
+        System.out.println(nbr_cavalier+ " Cavalier(s)");
+        System.out.println(nbr_canon+ " Canon(s)");
     }
 
 }
