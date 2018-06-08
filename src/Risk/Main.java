@@ -10,6 +10,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         int nbr_joueur = scan.nextInt();
 
+
         Game G = new Game(false, nbr_joueur);
         //Créer les joueurs, distribue les pays, place les unités
         G.initialisation(nbr_joueur);

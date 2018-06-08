@@ -96,7 +96,8 @@ public class Joueur {
         //Choix pays
         while (true) {
             System.out.println(" ");
-            System.out.println("Sur quel territoire (id) voulez-vous placer des unites ?");
+            System.out.println("Sur quel territoire voulez-vous déplacer des unites ?");
+            System.out.print("ID =");
             int country_id = scan.nextInt();
             ////Vérification
             if (!playerPossessCountry(country_id)) {
@@ -108,7 +109,10 @@ public class Joueur {
                 System.out.println("Vous avez en réserve...");
                 displayPossessUnites();
                 System.out.println(" ");
-                System.out.println("Quels unites (id) voulez-vous placer ?");
+                System.out.println("Quels unité(s) voulez-vous placer ?");
+                System.out.println("1- Soldat");
+                System.out.println("2- Cavalier");
+                System.out.println("3- Canon");
                 int unite_id = scan.nextInt();
                 System.out.println("Combien ?");
                 int unite_number = scan.nextInt();
@@ -170,34 +174,35 @@ public class Joueur {
     public int Renfort_region() {
         int regionPossessed = 0;
         ArrayList ownedCountries_id = ownedCountries_id();
+        System.out.println("Régions que vous possedez :  ");
         if (ownedCountries_id.contains(1) && ownedCountries_id.contains(2) && ownedCountries_id.contains(3) && ownedCountries_id.contains(4)
                 && ownedCountries_id.contains(5) && ownedCountries_id.contains(6) && ownedCountries_id.contains(7)) {
-            System.out.println("Europe");
+            System.out.print("Europe ");
             regionPossessed += 3;
         }
         if (ownedCountries_id.contains(8) && ownedCountries_id.contains(9) && ownedCountries_id.contains(10) && ownedCountries_id.contains(11)
                 && ownedCountries_id.contains(12) && ownedCountries_id.contains(13) && ownedCountries_id.contains(14) && ownedCountries_id.contains(15)
                 && ownedCountries_id.contains(16) && ownedCountries_id.contains(17) && ownedCountries_id.contains(18) && ownedCountries_id.contains(19)) {
-            System.out.println("Asie");
+            System.out.print("Asie  ");
             regionPossessed += 6;
         }
         if (ownedCountries_id.contains(20) && ownedCountries_id.contains(21) && ownedCountries_id.contains(22) && ownedCountries_id.contains(23)
                 && ownedCountries_id.contains(24) && ownedCountries_id.contains(25) && ownedCountries_id.contains(26) && ownedCountries_id.contains(27)
                 && ownedCountries_id.contains(28)) {
-            System.out.println("Amérique du Nord");
+            System.out.print("Amérique du Nord  ");
             regionPossessed += 4;
         }
         if (ownedCountries_id.contains(29) && ownedCountries_id.contains(30) && ownedCountries_id.contains(31) && ownedCountries_id.contains(32)) {
-            System.out.println("Amérique du Sud");
+            System.out.print("Amérique du Sud  ");
             regionPossessed += 2;
         }
         if (ownedCountries_id.contains(33) && ownedCountries_id.contains(34) && ownedCountries_id.contains(35) && ownedCountries_id.contains(36)
                 && ownedCountries_id.contains(37) && ownedCountries_id.contains(38)) {
-            System.out.println("Afrique");
+            System.out.println("Afrique  ");
             regionPossessed += 3;
         }
         if (ownedCountries_id.contains(39) && ownedCountries_id.contains(40) && ownedCountries_id.contains(41) && ownedCountries_id.contains(42)) {
-            System.out.println("Australie");
+            System.out.println("Australie  ");
             regionPossessed += 2;
         }
         return regionPossessed;
@@ -302,7 +307,8 @@ public class Joueur {
             if (!playerPossessCountry(country_id_origin)) {
                 System.out.println("Ce territoire n'est pas à vous !");
             } else {
-                System.out.println("Sur quel territoire (id) voulez-vous déplacer des unites ?");
+                System.out.println("Sur quel territoire voulez-vous déplacer des unites ?");
+                System.out.print("ID =");
                 int country_id_desti = scan.nextInt();
                 //Vérification
                 if (!playerPossessCountry(country_id_desti)) {
