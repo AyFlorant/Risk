@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-		//Interface fen = new Interface();
+	Interface fen = new Interface();
         System.out.println("Combien de Joueur (2 à 6) ?");
         Scanner scan = new Scanner(System.in);
         int nbr_joueur = scan.nextInt();
