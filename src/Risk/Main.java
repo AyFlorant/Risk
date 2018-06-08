@@ -21,9 +21,6 @@ public class Main {
             for (Joueur J : G.joueurs) {
                 G.gameTurn(J);
             }
-
-            System.out.println("Jeux en cours");
-            G.setVictory(true);
         }
 
     }

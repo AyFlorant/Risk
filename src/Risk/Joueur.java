@@ -1,7 +1,7 @@
 package Risk;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Joueur {
 
@@ -289,7 +289,8 @@ public class Joueur {
     public void choixDeplacement() {
         Scanner scan = new Scanner(System.in);
         //Country choice
-        while (true) {
+        int action = 0;
+        while (action == 0) {
             System.out.println("Depuis quel territoire (id) voulez-vous déplacer des unites ?");
             int country_id_origin = scan.nextInt();
             //Possession check
@@ -300,13 +301,7 @@ public class Joueur {
                 int country_id_desti = scan.nextInt();
                 //Possession check
                 if (!playerPossessCountry(country_id_desti)) {
-                    System.out.println("Ce pays n'est pas à vous, voulez-vous attaquer ?");
-                    System.out.println("1 - Oui");
-                    System.out.println("2 - Non");
-                    int attack = scan.nextInt();
-                    if (attack == 1) {
-                        choixAttack(country_id_origin, country_id_desti);
-                    }
+                    System.out.println("Ce pays n'est pas à vous !");
                 } else {
                     for (Country C : ownedCountries) {
                         if (C.country_id == country_id_origin) {
@@ -326,7 +321,7 @@ public class Joueur {
                                     System.out.println("Vous n'avez pas assez d'unite");
                                 else {
                                     deplacement(unite_id, unite_number, country_id_origin, country_id_desti);
-                                    break;
+                                    action = 1;
                                 }
                             } else if (unite_id == 2) {
                                 if (countryCavalierNumber(C) == 0)
@@ -335,7 +330,7 @@ public class Joueur {
                                     System.out.println("Vous n'avez pas assez d'unite");
                                 else {
                                     deplacement(unite_id, unite_number, country_id_origin, country_id_desti);
-                                    break;
+                                    action = 1;
                                 }
                             } else if (unite_id == 3) {
                                 if (countryCanonNumber(C) == 0)
@@ -344,7 +339,7 @@ public class Joueur {
                                     System.out.println("Vous n'avez pas assez d'unite");
                                 else {
                                     deplacement(unite_id, unite_number, country_id_origin, country_id_desti);
-                                    break;
+                                    action = 1;
                                 }
                             } else {
                                 System.out.println("Doesn't exist");
@@ -379,62 +374,14 @@ public class Joueur {
                 for (Unite U : bufferUnites) {
                     C.unitesOnLand.add(U);
                     bufferUnites2.add(U);
-
+                    bufferUnites2.add(U);
                     i++;
                 }
                 bufferUnites.removeAll(bufferUnites2);
                 C.afficherUnites();
             }
         }
-        //MVT_tour à décrementer TODO
     }
-
-    public void choixAttack(int country_id_origin, int country_id_desti) {
-        Scanner scan = new Scanner(System.in);
-        int[] unite_id = {0, 0, 0};
-        System.out.println("- Vous pouvez choisir jusqu'à 3 unités pour l'attaque -");
-        for (Country C : ownedCountries) {
-            if (C.country_id == country_id_origin) {
-                C.afficherUnites();
-                System.out.println("Quels unités voulez-vous ?");
-                System.out.println("1 - Soldat");
-                System.out.println("2 - Cavalier");
-                System.out.println("3 - Canon");
-                System.out.println("0 - Stop");
-                int i = 0;
-                for (i = 0; i < 3; i++) {
-                    System.out.println("-> ");
-                    int id = scan.nextInt();
-                    if (id == 0) break;
-                    else unite_id[i] = id;
-                }
-                System.out.println("i+1 after boucle choix " + i);
-                //Possession check
-                int error = 0;
-                for (int j = 0; j < 3; j++) {
-                    if (unite_id[j] == 1 && countrySoldatNumber(C) == 0) {
-                        error = 1;
-                    } else if (unite_id[j] == 2 && countryCavalierNumber(C) == 0) {
-                        error = 1;
-                    } else if (unite_id[j] == 3 && countryCanonNumber(C) == 0) {
-                        error = 1;
-                    } else if (C.unitesOnLand.size() <= i) {
-                        error = 2;
-                    }
-                }
-                if (error == 1) {
-                    System.out.println("Vous n'avez pas les unités requises");
-                } else if (error == 2) {
-                    System.out.println("Impossible, il faut qu'il y ait toujours une unité sur le territoire");
-                } else if ((error == 0)) {
-                    System.out.println("Parfait ! Vous pouvez désormais attaquer !");
-                    //TODO Attack
-                }
-            }
-        }
-    }
-
 
 }
-
 

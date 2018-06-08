@@ -57,4 +57,5 @@ public class Country {
         System.out.println("Nbr_cavalier (id2) = " + nbr_cavalier);
         System.out.println("Nbr_canon (id3) = " + nbr_canon);
     }
+
 }

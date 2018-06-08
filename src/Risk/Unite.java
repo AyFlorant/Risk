@@ -1,10 +1,12 @@
 package Risk;
 
+import java.util.Comparator;
+
 public class Unite {
 
     protected int type;
     protected int cost;
-    protected int [] power;
+    protected int[] power;
     protected int ATT_prio;
     protected int DEF_prio;
     protected int MVT_tour;
@@ -34,3 +36,5 @@ public class Unite {
         return MVT_tour;
     }
 }
+
+

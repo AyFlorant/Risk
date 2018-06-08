@@ -37,7 +37,7 @@ public class Game {
         while (i <= nbr_joueur) {
             System.out.println("Nom du joueur ?");
             String name = scan.nextLine();
-            ajouterJoueur(new Joueur(name, i,null,null));
+            ajouterJoueur(new Joueur(name, i, null, null));
             i += 1;
         }
         create_world();
@@ -53,10 +53,9 @@ public class Game {
                 J.placeUnites();
             }
             System.out.println("-> Vous avez placé toutes vos armées !");
+            System.out.println("");
             System.out.println("--- Joueur suivant ---");
         }
-
-
     }
 
     public void distributeUnites() {
@@ -86,10 +85,10 @@ public class Game {
                     J.setOwnedCountries(playersCountries);
                     countriesLeft.remove(countriesLeft.get(randomNumber));
 
-                    System.out.println("J.player_id" + J.player_id);
+                    //System.out.println("J.player_id" + J.player_id);
                     //System.out.println("J.ownedCountries.size()" + J.ownedCountries.size());
                     //System.out.println("countriesLeft.size()" + countriesLeft.size());
-                    System.out.println("Country_id" + J.ownedCountries.get(w).getCountry_id());
+                    //System.out.println("Country_id" + J.ownedCountries.get(w).getCountry_id());
                 }
             w++; //check country_id
             if (countriesLeft.isEmpty()) {
@@ -110,26 +109,110 @@ public class Game {
         //Receive new unites
         System.out.println("J.player_id" + J.player_id);
         double receivedUnites = floor(J.ownedCountries.size() / 3) + J.Renfort_region();
-        System.out.println("receivedUnites" + receivedUnites);
         for (int i = 0; i < J.countriesWonLastTurn; i++) {
             int randomNumber = ThreadLocalRandom.current().nextInt(1, 2);
             if (randomNumber == 2) {
                 receivedUnites++;
             }
         }
-        System.out.println("receivedUnites" + receivedUnites);
+        //System.out.println("receivedUnites" + receivedUnites);
         if (receivedUnites < 2) receivedUnites = 2;
         J.ajouterUnite_choice(receivedUnites);
         //Placing them
         while (J.unites.size() != 0) {
             J.placeUnites();
         }
-        //Deplacement/Attaque
-        J.choixDeplacement();
-
+        int action = 1;
+        Scanner scan = new Scanner(System.in);
+        while (action == 1) {
+            System.out.println("Que souhaitez-vous faire ?");
+            System.out.println("1 - Déplacement");
+            System.out.println("2 - Attaque");
+            System.out.println("0 - Arrêter le tour");
+            action = scan.nextInt();
+            if (action == 1) {
+                J.choixDeplacement();
+            } else if (action == 2) {
+                choixAttack(J);
+            }
+        }
     }
+
+    public void choixAttack(Joueur J) {
+        Scanner scan = new Scanner(System.in);
+
+        //Country choice
+        int action = 0;
+        while (action == 0) {
+            System.out.println("Depuis quel territoire (id) voulez-vous attaquer ?");
+            int country_id_origin = scan.nextInt();
+            //Possession check
+            if (!J.playerPossessCountry(country_id_origin)) {
+                System.out.println("Ce territoire n'est pas à vous !");
+            } else {
+                System.out.println("Quel territoire voulez-vous attaquer ?");
+                int country_id_desti = scan.nextInt();
+                //Possession check
+                if (J.playerPossessCountry(country_id_desti)) {
+                    System.out.println("Vous ne pouvez pas attaquer votre propre territoire !");
+                } else {
+                    int[] unite_id = {0, 0, 0};
+                    System.out.println("- Vous pouvez choisir jusqu'à 3 unités pour l'attaque -");
+                    for (Country C : J.ownedCountries) {
+                        if (C.country_id == country_id_origin) {
+                            C.afficherUnites();
+                            System.out.println("Quels unités voulez-vous ?");
+                            System.out.println("1 - Soldat");
+                            System.out.println("2 - Cavalier");
+                            System.out.println("3 - Canon");
+                            System.out.println("0 - Stop");
+                            int i = 0;
+                            for (i = 0; i < 3; i++) {
+                                System.out.println("-> ");
+                                int id = scan.nextInt();
+                                if (id == 0) break;
+                                else unite_id[i] = id;
+                            }
+                            //Vérification possession et territoire non vide
+                            int error = 0;
+                            for (int j = 0; j < 3; j++) {
+                                if (unite_id[j] == 1 && J.countrySoldatNumber(C) == 0) {
+                                    error = 1;
+                                } else if (unite_id[j] == 2 && J.countryCavalierNumber(C) == 0) {
+                                    error = 1;
+                                } else if (unite_id[j] == 3 && J.countryCanonNumber(C) == 0) {
+                                    error = 1;
+                                } else if (C.unitesOnLand.size() <= i) {
+                                    error = 2;
+                                }
+                            }
+                            if (error == 1) {
+                                System.out.println("Vous n'avez pas les unités requises");
+                            } else if (error == 2) {
+                                System.out.println("Impossible, il faut qu'il y ait toujours une unité sur le territoire");
+                            } else if ((error == 0)) {
+                                System.out.println("Parfait ! Passons à l'attaque");
+                                for (Joueur J2 : joueurs) {
+                                    for (Country C2 : J2.ownedCountries){
+                                        if (C2.country_id == country_id_desti){
+                                            Attack A = new Attack();
+                                            A.attack(unite_id,country_id_origin, country_id_desti,J,J2);
+                                        }
+                                    }
+                                }
+                                action = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     public boolean victory() {
         return true; //TODO
     }
+
+
 }
